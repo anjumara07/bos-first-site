@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-export const Home =()=>{
+export const Detail =()=>{
     return (
         <>
-           <h1>Product</h1>
+           <h1>Detail</h1>
         </>
     )
 }

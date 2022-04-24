@@ -1,0 +1,24 @@
+.loginBox{
+    width: 260px;
+    height:320px;
+    margin: auto;
+    margin-top: 40px;
+    padding: 30px;
+    padding-left: 50px;
+    text-align: left;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.loginBox>h2{
+    margin-left: 35%;
+    text-decoration: underline;
+}
+
+.loginBox>input{
+    border:none;
+    border-bottom: 2px solid;
+    margin-top: 20px;
+    width: 200px;
+    padding: 7px 10px;
+}
