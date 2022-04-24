@@ -50,7 +50,7 @@ export function Login() {
           .then((res) => {
             setData(false);
             dispatch(loginRequest(res.data));
-            navigate("/");
+            navigate("/admin");
           })
           .catch((err) => {
             console.log(err);

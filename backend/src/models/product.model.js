@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
     address:{type: 'String',required: true},
     capacity:{type: 'Number',required: true},
     cost_per_day:{type: 'Number',required: true},
+    image:{type: 'String',required:true},
     verified:{type: 'String',required: true},
     rating:{type: 'Number',required: true},
     admin_id : {type: mongoose.Schema.Types.ObjectId, ref: "admin", required: true}

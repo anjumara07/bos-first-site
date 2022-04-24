@@ -18,8 +18,12 @@ router.post("", authenticate, async (req, res) => {
 
 router.get("", async (req, res) => {
   try {
-    const products = await Product.find().populate("admin_id").lean().exec();
-    return res.send(products);
+    const page = req.query.page || 1;
+    const size = req.query.size || 4;
+    // const products = await Product.find().lean().exec();
+    const products = await Product.find().skip((page - 1) * size).limit(size).lean().exec();
+    const totalpages = Math.ceil((await Product.find().countDocuments()) / size)
+    return res.send({products , totalpages});
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
