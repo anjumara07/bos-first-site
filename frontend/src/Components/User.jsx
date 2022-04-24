@@ -51,7 +51,6 @@ const rows = [
 
 export function Tables() {
     const [page,setPage] = useState(1)
-    const [price ,setPrice] = useState(true)
     const allProducts = useSelector((store)=>store.data.data)
     const isLoggedIn = useSelector((store) => store.reducer.isLoggedIn)
 
@@ -69,49 +68,42 @@ export function Tables() {
               size:4
           }
       }).then((response) => {
-        //   console.log(response.data.products);
         dispatch(addData(response.data.products));
-
       })
   }
 
-  const sortPrice = () => {
-     if(price===true){
-        axios.get('http://localhost:2345/products').then((response) => {
-        const data = response.data.products
-        console.log(data);
-        const ans = data.sort((a,b)=>{
-            return a.cost_per_day - b.cost_per_day
-        })
-        console.log(ans);
-        dispatch(addData([...ans]));
-        setPrice(false);
-        return
-      })
-      
-     }
-     else{
-        axios.get('http://localhost:2345/products').then((response) => {
-        const data = response.data.products
-        console.log(data);
-        const ans = data.sort((a,b)=>{
-            return b.cost_per_day - a.cost_per_day
-        })
-        console.log(ans);
-        dispatch(addData([...ans]));
-        setPrice(true);
-        return
-      })
-      
-     }
+  const sortPrice = (price) => {
+    axios.get(`http://localhost:2345/products?price=${price}`).then((response) => {
+      dispatch(addData(response.data));
+    })
      
+  }
+
+  const sortRating = (rating) => {
+    axios.get(`http://localhost:2345/products?rating=${rating}`).then((response) => {
+      dispatch(addData(response.data));
+    })
+     
+  }
+
+  const handleRefresh = () => {
+    getData()
+  }
+
+  const filterVerified = (filter) =>{
+    axios.get(`http://localhost:2345/products?verified=${filter}`).then((response) => {
+      dispatch(addData(response.data));
+    })
   }
 
   return (
     <>
-        <Button style={{margin:'10px'}} variant="contained">Filter Verified Place</Button>
-        <Button style={{margin:'10px'}} onClick={sortPrice} variant="contained">Sort By Price</Button>
-        <Button style={{margin:'10px'}} variant="contained">Sort By Rating</Button>
+        <Button style={{margin:'10px'}} onClick={()=>filterVerified('yes')} variant="contained">Filter Verified Place</Button>
+        <Button style={{margin:'10px'}} onClick={()=>sortPrice('asc')} variant="contained">Sort By Price Asc</Button>
+        <Button style={{margin:'10px'}} onClick={()=>sortPrice('desc')} variant="contained">Sort By Price Desc</Button>
+        <Button style={{margin:'10px'}} onClick={()=>sortRating('asc')} variant="contained">Sort By Rating Asc</Button>
+        <Button style={{margin:'10px'}} onClick={()=>sortRating('desc')} variant="contained">Sort By Rating Desc</Button>
+        <Button style={{margin:'10px'}} onClick={handleRefresh} variant="contained">Refresh</Button>
         <TableContainer style={{marginTop:'50px'}} component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
