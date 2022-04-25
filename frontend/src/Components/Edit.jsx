@@ -2,27 +2,27 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
-import {useEffect , useState} from 'react'
-import {useSelector,useDispatch} from 'react-redux';
-// import {addData} from '../Redux/Product/action'
 
-export function Create() {
+export function EditForm() {
 
-  const [values, setValues] = useState({});
-
-  const handleChange = (e) => {
-    //  console.log(e.target.value)
-      const {id,value} = e.target;
-      setValues({...values,[id]:value})
-  }
+  const {id} = useParams();
+  
+  const [data,setdata] = React.useState({})
 
   const updateState = ()=>{
-    axios.post(`http://localhost:2345/products`,values).then((response) =>{
-    //    console.log(response.data);
-       alert("Data is Added in The Table ✔️")   
-    })
+      axios.patch(`http://localhost:2345/products/${id}`,data).then(function(response){
+          alert("Your Data is Updated ✔️") 
+      })
   }
+
+  const handleChange = (e)=>{
+      const {id,value} = e.target
+      // console.log(id,value)
+    setdata({...data,[id]:value})
+  }
+
 
   return (
     <>
@@ -36,13 +36,6 @@ export function Create() {
       autoComplete="off"
     >
       <div>
-          <TextField
-          onChange={handleChange}
-          id="id"
-          label="ID"
-          variant="filled"
-        />
-        <br/>
         <TextField
           onChange={handleChange}
           id="name"

@@ -56,6 +56,7 @@ export function Tables() {
 
     // console.log(allProducts);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
   useEffect(() => {
       getData()
@@ -96,6 +97,12 @@ export function Tables() {
     })
   }
 
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:2345/products/${id}`).then((response)=>{
+      getData()
+    })
+  }
+
   return (
     <>
         <Button style={{margin:'10px'}} onClick={()=>filterVerified('yes')} variant="contained">Filter Verified Place</Button>
@@ -133,15 +140,15 @@ export function Tables() {
                 <StyledTableCell align="center">{row.verified}</StyledTableCell>
                 <StyledTableCell align="center">{row.rating}</StyledTableCell>
                 <StyledTableCell align="center"><img src={row.image} alt="pet's house" width="100px" /></StyledTableCell>
-                {isLoggedIn?<StyledTableCell align="center"><Button variant="contained">Edit</Button></StyledTableCell>:""}
-                {isLoggedIn?<StyledTableCell align="center"><Grid style={{cursor: 'pointer'}} item xs={8}><DeleteIcon /></Grid></StyledTableCell>:""}
+                {isLoggedIn?<StyledTableCell align="center"><Button onClick={()=>navigate(`/editpage/${row._id}`)} variant="contained">Edit</Button></StyledTableCell>:""}
+                {isLoggedIn?<StyledTableCell align="center"><Grid onClick={()=>handleDelete(row._id)} style={{cursor: 'pointer'}} item xs={8}><DeleteIcon /></Grid></StyledTableCell>:""}
                 </StyledTableRow>
             ))}
             </TableBody>
         </Table>
         </TableContainer>
         <Button style={{margin:'20px' , backgroundColor:'gray'}} variant="contained" disabled={page===1} onClick={()=>{setPage(page-1)}}>Prev</Button>
-        <Button style={{margin:'20px' , backgroundColor:'gray'}} variant="contained" disabled={page===2}  onClick={()=>{setPage(page+1)}}>Next</Button>
+        <Button style={{margin:'20px' , backgroundColor:'gray'}} variant="contained" onClick={()=>{setPage(page+1)}}>Next</Button>
     </>
   );
 }

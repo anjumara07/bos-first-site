@@ -5,6 +5,7 @@ import {Login} from '../Components/Login';
 import {Detail} from '../Components/Details';
 import {Nav} from '../Components/Nav';
 import {Create} from '../Components/Create'
+import {EditForm} from '../Components/Edit'
 
 
 export const AllRoutes = () =>{
@@ -17,6 +18,7 @@ export const AllRoutes = () =>{
               <Route path="/admin" element={<Admin/>}/>
               <Route path="/details/:id" element={<Detail/>}/>
               <Route path="/create" element={<Create/>} />
+              <Route path="/editpage/:id" element={<EditForm/>} />
           </Routes>
         
         </>
