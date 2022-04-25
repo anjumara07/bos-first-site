@@ -18,7 +18,7 @@ export function Create() {
   }
 
   const updateState = ()=>{
-    axios.post(`http://localhost:2345/products`,values).then((response) =>{
+    axios.post(`https://bos-first-site-065.herokuapp.com/products`,values).then((response) =>{
     //    console.log(response.data);
        alert("Data is Added in The Table ✔️")   
     })

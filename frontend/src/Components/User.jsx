@@ -63,7 +63,7 @@ export function Tables() {
   },[page])    
 
   const getData = () =>{
-      axios.get('http://localhost:2345/products',{
+      axios.get('https://bos-first-site-065.herokuapp.com/products',{
           params:{
               page:page,
               size:4
@@ -74,14 +74,14 @@ export function Tables() {
   }
 
   const sortPrice = (price) => {
-    axios.get(`http://localhost:2345/products?price=${price}`).then((response) => {
+    axios.get(`https://bos-first-site-065.herokuapp.com/products?price=${price}`).then((response) => {
       dispatch(addData(response.data));
     })
      
   }
 
   const sortRating = (rating) => {
-    axios.get(`http://localhost:2345/products?rating=${rating}`).then((response) => {
+    axios.get(`https://bos-first-site-065.herokuapp.com/products?rating=${rating}`).then((response) => {
       dispatch(addData(response.data));
     })
      
@@ -92,13 +92,13 @@ export function Tables() {
   }
 
   const filterVerified = (filter) =>{
-    axios.get(`http://localhost:2345/products?verified=${filter}`).then((response) => {
+    axios.get(`https://bos-first-site-065.herokuapp.com/products?verified=${filter}`).then((response) => {
       dispatch(addData(response.data));
     })
   }
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:2345/products/${id}`).then((response)=>{
+    axios.delete(`https://bos-first-site-065.herokuapp.com/products/${id}`).then((response)=>{
       getData()
     })
   }

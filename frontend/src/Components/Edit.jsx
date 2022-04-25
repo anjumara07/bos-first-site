@@ -12,7 +12,7 @@ export function EditForm() {
   const [data,setdata] = React.useState({})
 
   const updateState = ()=>{
-      axios.patch(`http://localhost:2345/products/${id}`,data).then(function(response){
+      axios.patch(`https://bos-first-site-065.herokuapp.com/products/${id}`,data).then(function(response){
           alert("Your Data is Updated ✔️") 
       })
   }

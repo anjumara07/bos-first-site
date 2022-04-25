@@ -1,7 +1,7 @@
 const express = require('express');
 const connect = require('./configs/db')
 
-const port = process.env.PORT || 2345
+const port = process.env.PORT || 2346
 
 const cors = require("cors");
 
@@ -28,7 +28,7 @@ app.use("/admin",adminController)
 app.listen(port,async function () {
     try{
         await connect();
-        console.log('Listening on port 2345')
+        console.log(`Listening on port ${port}`)
     }catch(e){
         console.log(e)
     }
