@@ -22,3 +22,7 @@
     width: 200px;
     padding: 7px 10px;
 }
+
+h3{
+    display: inline;
+}

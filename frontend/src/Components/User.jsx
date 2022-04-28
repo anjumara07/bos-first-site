@@ -51,6 +51,7 @@ const rows = [
 
 export function Tables() {
     const [page,setPage] = useState(1)
+    const [load,setLoad] = useState(true)
     const allProducts = useSelector((store)=>store.data.data)
     const isLoggedIn = useSelector((store) => store.reducer.isLoggedIn)
 
@@ -63,6 +64,7 @@ export function Tables() {
   },[page])    
 
   const getData = () =>{
+      setLoad(true)
       axios.get('https://bos-first-site-065.herokuapp.com/products',{
           params:{
               page:page,
@@ -70,6 +72,7 @@ export function Tables() {
           }
       }).then((response) => {
         dispatch(addData(response.data.products));
+        setLoad(false)
       })
   }
 
@@ -111,8 +114,8 @@ export function Tables() {
         <Button style={{margin:'10px'}} onClick={()=>sortRating('asc')} variant="contained">Sort By Rating Asc</Button>
         <Button style={{margin:'10px'}} onClick={()=>sortRating('desc')} variant="contained">Sort By Rating Desc</Button>
         <Button style={{margin:'10px'}} onClick={handleRefresh} variant="contained">Refresh</Button>
-        <TableContainer style={{marginTop:'50px'}} component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        {load?<div>Loading...</div>:<TableContainer style={{marginTop:'50px'}} component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
             <TableRow>
                 <StyledTableCell>Id</StyledTableCell>
@@ -130,25 +133,25 @@ export function Tables() {
             </TableHead>
             <TableBody>
             {allProducts.map((row) => (
-                <StyledTableRow key={row.id}>
-                <StyledTableCell component="th" scope="row">{row.id}</StyledTableCell>
-                <StyledTableCell align="center">{row.name}</StyledTableCell>
-                <StyledTableCell align="center">{row.city}</StyledTableCell>
-                <StyledTableCell align="center">{row.address}</StyledTableCell>
-                <StyledTableCell align="center">{row.capacity}</StyledTableCell>
-                <StyledTableCell align="center">{row.cost_per_day}</StyledTableCell>
-                <StyledTableCell align="center">{row.verified}</StyledTableCell>
-                <StyledTableCell align="center">{row.rating}</StyledTableCell>
-                <StyledTableCell align="center"><img src={row.image} alt="pet's house" width="100px" /></StyledTableCell>
-                {isLoggedIn?<StyledTableCell align="center"><Button onClick={()=>navigate(`/editpage/${row._id}`)} variant="contained">Edit</Button></StyledTableCell>:""}
-                {isLoggedIn?<StyledTableCell align="center"><Grid onClick={()=>handleDelete(row._id)} style={{cursor: 'pointer'}} item xs={8}><DeleteIcon /></Grid></StyledTableCell>:""}
+                <StyledTableRow onClick={()=>{navigate(`/details/${row._id}`)}} key={row.id}>
+                  <StyledTableCell component="th" scope="row">{row.id}</StyledTableCell>
+                  <StyledTableCell align="center">{row.name}</StyledTableCell>
+                  <StyledTableCell align="center">{row.city}</StyledTableCell>
+                  <StyledTableCell align="center">{row.address}</StyledTableCell>
+                  <StyledTableCell align="center">{row.capacity}</StyledTableCell>
+                  <StyledTableCell align="center">{row.cost_per_day}</StyledTableCell>
+                  <StyledTableCell align="center">{row.verified}</StyledTableCell>
+                  <StyledTableCell align="center">{row.rating}</StyledTableCell>
+                  <StyledTableCell align="center"><img src={row.image} alt="pet's house" width="100px" /></StyledTableCell>
+                  {isLoggedIn?<StyledTableCell align="center"><Button onClick={()=>navigate(`/editpage/${row._id}`)} variant="contained">Edit</Button></StyledTableCell>:""}
+                  {isLoggedIn?<StyledTableCell align="center"><Grid onClick={()=>handleDelete(row._id)} style={{cursor: 'pointer'}} item xs={8}><DeleteIcon /></Grid></StyledTableCell>:""}
                 </StyledTableRow>
             ))}
             </TableBody>
         </Table>
-        </TableContainer>
         <Button style={{margin:'20px' , backgroundColor:'gray'}} variant="contained" disabled={page===1} onClick={()=>{setPage(page-1)}}>Prev</Button>
         <Button style={{margin:'20px' , backgroundColor:'gray'}} variant="contained" onClick={()=>{setPage(page+1)}}>Next</Button>
+      </TableContainer>}
     </>
   );
 }
