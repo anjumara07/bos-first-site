@@ -109,9 +109,7 @@ export function Tables() {
   return (
     <>
         <Button style={{margin:'10px'}} onClick={()=>filterVerified('yes')} variant="contained">Filter Verified Place</Button>
-        {/* <Button style={{margin:'10px'}} onClick={()=>sortPrice('asc')} variant="contained">Sort By Price Asc</Button>
-        <Button style={{margin:'10px'}} onClick={()=>sortPrice('desc')} variant="contained">Sort By Price Desc</Button> */}
-
+        
         <Box
           component="form"
           sx={{
@@ -134,7 +132,6 @@ export function Tables() {
             </TextField>
           
         </Box>
-
 
         <Box
           component="form"
@@ -159,10 +156,6 @@ export function Tables() {
           
         </Box>
 
-
-
-        {/* <Button style={{margin:'10px'}} onClick={()=>sortRating('asc')} variant="contained">Sort By Rating Asc</Button>
-        <Button style={{margin:'10px'}} onClick={()=>sortRating('desc')} variant="contained">Sort By Rating Desc</Button> */}
         <Button style={{margin:'10px'}} onClick={handleRefresh} variant="contained">Refresh</Button>
         {load?<div>Loading...</div>:<TableContainer style={{marginTop:'50px'}} component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -176,6 +169,7 @@ export function Tables() {
                 <StyledTableCell align="center">Cost Per Day</StyledTableCell>
                 <StyledTableCell align="center">Verified</StyledTableCell>
                 <StyledTableCell align="center">Rating</StyledTableCell>
+                <StyledTableCell align="center">Details</StyledTableCell>
                 <StyledTableCell align="center">Image</StyledTableCell>
                 {isLoggedIn?<StyledTableCell align="center">Edit</StyledTableCell>:""}
                 {isLoggedIn?<StyledTableCell align="center">Delete</StyledTableCell>:""}
@@ -183,7 +177,7 @@ export function Tables() {
             </TableHead>
             <TableBody>
             {allProducts.map((row) => (
-                <StyledTableRow style={{cursor: 'pointer'}} onClick={()=>{navigate(`/details/${row._id}`)}} key={row.id}>
+                <StyledTableRow key={row.id}>
                   <StyledTableCell component="th" scope="row">{row.id}</StyledTableCell>
                   <StyledTableCell align="center">{row.name}</StyledTableCell>
                   <StyledTableCell align="center">{row.city}</StyledTableCell>
@@ -192,6 +186,7 @@ export function Tables() {
                   <StyledTableCell align="center">{row.cost_per_day}</StyledTableCell>
                   <StyledTableCell align="center">{row.verified}</StyledTableCell>
                   <StyledTableCell align="center">{row.rating}</StyledTableCell>
+                  <StyledTableCell align="center" style={{cursor: 'pointer' , textDecoration:'underline' , color:'blue'}} onClick={()=>{navigate(`/details/${row._id}`)}}>Details</StyledTableCell>
                   <StyledTableCell align="center"><img src={row.image} alt="pet's house" width="100px" /></StyledTableCell>
                   {isLoggedIn?<StyledTableCell align="center"><Button onClick={()=>navigate(`/editpage/${row._id}`)} variant="contained">Edit</Button></StyledTableCell>:""}
                   {isLoggedIn?<StyledTableCell align="center"><Grid onClick={()=>handleDelete(row._id)} style={{cursor: 'pointer'}} item xs={8}><DeleteIcon /></Grid></StyledTableCell>:""}
