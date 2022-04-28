@@ -1,6 +1,6 @@
 # bos-first-site
 
-To Login this apartment website just use email and password which is written below :-
+To Login this website just use email and password which is written below :-
 <br />
 <br />
 Email : aa@gmail.com
