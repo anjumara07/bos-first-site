@@ -18,15 +18,16 @@ export function Create() {
   }
 
   const updateState = ()=>{
+    console.log(values);
     axios.post(`https://bos-first-site-065.herokuapp.com/products`,values).then((response) =>{
-    //    console.log(response.data);
+       console.log(response.data);
        alert("Data is Added in The Table ✔️")   
     })
   }
 
   return (
     <>
-    <h1>Edit Form</h1>
+    <h1>Create Data</h1>
       <Box style={{display: 'flex' , width:'465px', margin:'auto'}}
       component="form"
       sx={{

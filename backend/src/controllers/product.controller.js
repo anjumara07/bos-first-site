@@ -5,11 +5,14 @@ const Product = require("../models/product.model");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
+  // console.log(req.body);
   try {
+    console.log(req.body);
     const product = await Product.create(req.body);
-    return res.send(product);
+    return res.status(201).send(product);
   } catch (err) {
-    return res.status(500).send({ message: err.message });
+    // console.log(req.body);
+    return res.status(500).send(err.message);
   }
 });
 
