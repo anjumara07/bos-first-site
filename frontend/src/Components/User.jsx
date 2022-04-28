@@ -10,6 +10,9 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -35,19 +38,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 
 export function Tables() {
     const [page,setPage] = useState(1)
@@ -76,20 +66,30 @@ export function Tables() {
       })
   }
 
-  const sortPrice = (price) => {
-    axios.get(`https://bos-first-site-065.herokuapp.com/products?price=${price}`).then((response) => {
-      dispatch(addData(response.data));
-    })
-     
-  }
+  const handleSortPrice = (event) => {
+    var price
+    if(event.target.value === 'Increasing'){
+      price = "asc"
+    }else{
+      price = "desc"
+    }
+     axios.get(`https://bos-first-site-065.herokuapp.com/products?price=${price}`).then((response) => {
+       dispatch(addData(response.data));
+     })
+  };
 
-  const sortRating = (rating) => {
-    axios.get(`https://bos-first-site-065.herokuapp.com/products?rating=${rating}`).then((response) => {
-      dispatch(addData(response.data));
-    })
-     
-  }
-
+    const handleSortRate = (event) => {
+      var rating
+      if(event.target.value === 'Increasing'){
+        rating = "asc"
+      }else{
+        rating = "desc"
+      }
+      axios.get(`https://bos-first-site-065.herokuapp.com/products?rating=${rating}`).then((response) => {
+        dispatch(addData(response.data));
+      })
+  };
+  
   const handleRefresh = () => {
     getData()
   }
@@ -109,10 +109,60 @@ export function Tables() {
   return (
     <>
         <Button style={{margin:'10px'}} onClick={()=>filterVerified('yes')} variant="contained">Filter Verified Place</Button>
-        <Button style={{margin:'10px'}} onClick={()=>sortPrice('asc')} variant="contained">Sort By Price Asc</Button>
-        <Button style={{margin:'10px'}} onClick={()=>sortPrice('desc')} variant="contained">Sort By Price Desc</Button>
-        <Button style={{margin:'10px'}} onClick={()=>sortRating('asc')} variant="contained">Sort By Rating Asc</Button>
-        <Button style={{margin:'10px'}} onClick={()=>sortRating('desc')} variant="contained">Sort By Rating Desc</Button>
+        {/* <Button style={{margin:'10px'}} onClick={()=>sortPrice('asc')} variant="contained">Sort By Price Asc</Button>
+        <Button style={{margin:'10px'}} onClick={()=>sortPrice('desc')} variant="contained">Sort By Price Desc</Button> */}
+
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off"
+          style={{display: 'inline'}}
+        >
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Sort Price"
+              // value={currency}
+              onChange={handleSortPrice}
+              helperText="Please select your choice"
+            >   
+                <MenuItem value="Increasing">Increasing</MenuItem>
+                <MenuItem value="Decreasing">Decreasing</MenuItem>
+            </TextField>
+          
+        </Box>
+
+
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off"
+          style={{display: 'inline'}}
+        >
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Sort Rating"
+              // value={currency}
+              onChange={handleSortRate}
+              helperText="Please select your choice"
+            >   
+                <MenuItem value="Increasing">Increasing</MenuItem>
+                <MenuItem value="Decreasing">Decreasing</MenuItem>
+            </TextField>
+          
+        </Box>
+
+
+
+        {/* <Button style={{margin:'10px'}} onClick={()=>sortRating('asc')} variant="contained">Sort By Rating Asc</Button>
+        <Button style={{margin:'10px'}} onClick={()=>sortRating('desc')} variant="contained">Sort By Rating Desc</Button> */}
         <Button style={{margin:'10px'}} onClick={handleRefresh} variant="contained">Refresh</Button>
         {load?<div>Loading...</div>:<TableContainer style={{marginTop:'50px'}} component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -133,7 +183,7 @@ export function Tables() {
             </TableHead>
             <TableBody>
             {allProducts.map((row) => (
-                <StyledTableRow onClick={()=>{navigate(`/details/${row._id}`)}} key={row.id}>
+                <StyledTableRow style={{cursor: 'pointer'}} onClick={()=>{navigate(`/details/${row._id}`)}} key={row.id}>
                   <StyledTableCell component="th" scope="row">{row.id}</StyledTableCell>
                   <StyledTableCell align="center">{row.name}</StyledTableCell>
                   <StyledTableCell align="center">{row.city}</StyledTableCell>
